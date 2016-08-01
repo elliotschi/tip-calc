@@ -32,6 +32,7 @@
                                                 <fontDescription key="fontDescription" name="Optima-Regular" family="Optima" pointSize="20"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad" keyboardAppearance="alert"/>
                                                 <connections>
+                                                    <action selector="onBillFieldBlur:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="SHH-5I-YOg"/>
                                                     <action selector="onFormChange:" destination="BYZ-38-t0r" eventType="editingChanged" id="GB1-PV-rjD"/>
                                                 </connections>
                                             </textField>

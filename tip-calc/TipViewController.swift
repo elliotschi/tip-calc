@@ -20,8 +20,10 @@ class TipViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     // init labels
-    calculatedTipLabel.text = String(format: dollarsFormatString, 0.00)
-    totalAmountLabel.text = String(format: dollarsFormatString, 0.00)
+    let cachedBillAmount = settings.string(forKey: "billAmount")
+    billAmountField.text = cachedBillAmount
+    
+    calculateAndRenderTip()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -29,7 +31,7 @@ class TipViewController: UIViewController {
 
     let selectedTipPercentageIndex = settings.integer(forKey: "selectedTipPercentageIndex")
     tipPercentageControl.selectedSegmentIndex = selectedTipPercentageIndex
-    calculateTip()
+    calculateAndRenderTip()
   }
 
   @IBAction func onTap(_ sender: UITapGestureRecognizer) {
@@ -37,26 +39,15 @@ class TipViewController: UIViewController {
   }
   
   @IBAction func onFormChange(_ sender: AnyObject) {
-//    let tipPercentages = [0.18, 0.2, 0.22]
-//    let selectedTipPercentage = tipPercentages[tipPercentageControl.selectedSegmentIndex]
-//    
-//    print(billAmountField.text)
-//    
-//    var billAmount = Double("0")
-//    
-//    if !(billAmountField.text?.isEmpty)! {
-//      billAmount = Double(billAmountField.text!)
-//    }
-//    
-//    let tipAmount = billAmount! * selectedTipPercentage
-//    let totalAmount = billAmount! + tipAmount
-//    
-//    calculatedTipLabel.text = String(format: dollarsFormatString, tipAmount)
-//    totalAmountLabel.text = String(format: dollarsFormatString, totalAmount)
-    calculateTip()
+    calculateAndRenderTip()
   }
   
-  func calculateTip() {
+  @IBAction func onBillFieldBlur(_ sender: UITextField) {
+    settings.set(billAmountField.text, forKey: "billAmount")
+    settings.synchronize()
+  }
+  
+  func calculateAndRenderTip() {
     let tipPercentages = [0.18, 0.2, 0.22]
     let selectedTipPercentage = tipPercentages[tipPercentageControl.selectedSegmentIndex]
     
